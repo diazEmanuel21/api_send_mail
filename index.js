@@ -1,12 +1,11 @@
 const express = require("express");
 const cors = require('cors');
+const app = express();
 
 require("dotenv").config();
 
 // Habilita CORS para todas las rutas
 app.use(cors());
-// Crear el servidor express
-const app = express();
 
 // Middleware para analizar el cuerpo JSON de las solicitudes
 app.use(express.json());
