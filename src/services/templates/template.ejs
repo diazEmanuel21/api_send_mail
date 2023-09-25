@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Room Reservation Confirmation</title>
 </head>
 
 <style>
@@ -61,7 +61,6 @@
         border-bottom-right-radius: 5px;
     }
 </style>
-</head>
 
 <body>
     <div class="container">
@@ -69,13 +68,13 @@
             <h1>Room Reservation Confirmation</h1>
         </div>
         <div class="content">
-            <p>Dear [displayName],</p>
+            <p>Dear <%= displayName %>,</p>
             <p>We are pleased to inform you that your room reservation has been processed successfully.</p>
             <p>Reservation details:</p>
             <ul>
-                <li><strong>Check-In Date:</strong> [inDate]</li>
-                <li><strong>Check-Out Date:</strong> [outDate]</li>
-                <li><strong>Name Hotel:</strong> [hotel_name]</li>
+                <li><strong>Check-In Date:</strong> <%= inDate %></li>
+                <li><strong>Check-Out Date:</strong> <%= outDate %></li>
+                <li><strong>Name Hotel:</strong> <%= hotel_name %></li>
             </ul>
             <p>If you have any questions or need to make changes to your reservation, please do not hesitate to contact
                 us.</p>

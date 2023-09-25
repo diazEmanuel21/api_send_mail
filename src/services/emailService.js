@@ -1,23 +1,21 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const fs = require("fs");
 const path = require("path");
-const bodyEmail = fs.readFileSync(path.join(__dirname, "public", "msgEmail.html"), "utf8");
+const ejs = require("ejs"); // Importa EJS
 
-
+// Ruta a la plantilla EJS
+const templatePath = path.join(__dirname, "templates", "template.ejs");
 
 // Especifica la ruta al archivo .env utilizando path.resolve
 const envPath = path.resolve(__dirname, "../.env");
 
-// Carga las variables de entorno desde el archivo .env
 dotenv.config({ path: envPath });
 
-// Configura el transportador de NodeMailer
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   host: "smtp.gmail.com",
-  port: 587, // Puerto para STARTTLS
-  secure: false, // Establece en false para usar STARTTLS
+  port: 587,
+  secure: false, 
 
   auth: {
     user: process.env.SMTP_EMAIL,
@@ -25,18 +23,28 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar un correo electrónico
-const sendEmail = async ({ email }) => {
+const sendEmail = async ({ 
+  email,
+  displayName,
+  hotel_name,
+  inDate,
+  outDate }) => {
   try {
-    // Configura las opciones de correo electrónico
+    // Renderiza la plantilla EJS con las variables dinámicas
+    const emailHTML = await ejs.renderFile(templatePath, {
+      displayName,
+      hotel_name,
+      inDate,
+      outDate
+    });
+
     const mailOptions = {
       from: process.env.SMTP_EMAIL,
       to: email,
       subject: "¡Tu Reserva Ha Sido Confirmada!",
-      html: bodyEmail,
+      html: emailHTML,
     };
 
-    // Envía el correo electrónico
     const info = await transporter.sendMail(mailOptions);
 
     return {
@@ -45,7 +53,7 @@ const sendEmail = async ({ email }) => {
     }
   } catch (error) {
     return {
-      ok: true,
+      ok: false,
       message: `Fallo al enviar correo, ${error}`
     }
   }
