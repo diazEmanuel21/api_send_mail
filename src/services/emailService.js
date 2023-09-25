@@ -26,12 +26,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Función para enviar un correo electrónico
-const sendEmail = async (to) => {
+const sendEmail = async ({ email }) => {
   try {
     // Configura las opciones de correo electrónico
     const mailOptions = {
       from: process.env.SMTP_EMAIL,
-      to: "diazev20@gmail.com",
+      to: email,
       subject: "¡Tu Reserva Ha Sido Confirmada!",
       html: bodyEmail,
     };
@@ -39,10 +39,15 @@ const sendEmail = async (to) => {
     // Envía el correo electrónico
     const info = await transporter.sendMail(mailOptions);
 
-    console.log("Correo enviado con éxito", info.response);
+    return {
+      ok: true,
+      message: `Correo enviado con éxito, ${info.response}`
+    }
   } catch (error) {
-    console.error("SERVICE => Error al enviar el correo electrónico", error);
-    throw error; // Propaga el error para que sea manejado por el controlador
+    return {
+      ok: true,
+      message: `Fallo al enviar correo, ${error}`
+    }
   }
 };
 
