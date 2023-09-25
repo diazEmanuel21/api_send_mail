@@ -4,7 +4,7 @@
   "description": "api_send_mails",
   "main": "index.js",
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "node index.js"
